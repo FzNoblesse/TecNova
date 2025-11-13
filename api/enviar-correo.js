@@ -1,27 +1,27 @@
-import nodemailer from 'nodemailer';
+const nodemailer = require('nodemailer');
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
     
-    // Solo permitir peticiones POST
+    // 1. Solo permitir peticiones POST
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Método no permitido' });
     }
 
+    // 2. Recibe los datos del frontend (vienen en req.body)
     const { nombre, email, empresa, servicio } = req.body;
 
-    // Configura el transportador de correo
-    // USA VARIABLES DE ENTORNO de Vercel
+    // 3. Configura Nodemailer (USA VARIABLES DE ENTORNO DE VERCEL)
     let transporter = nodemailer.createTransport({
-        host: "smtp.office365.com",
+        host: "smtp.office3365.com", // Nota: El host SMTP de Outlook es smtp.office365.com
         port: 587,
         secure: false, 
         auth: {
-            user: process.env.EMAIL_USER, // Tu correo
-            pass: process.env.EMAIL_PASS, // Tu contraseña
+            user: process.env.EMAIL_USER, // Variable de Entorno
+            pass: process.env.EMAIL_PASS, // Variable de Entorno
         },
     });
 
-    // Define el correo
+    // 4. Define el contenido del correo
     let mailOptions = {
         from: '"Tecnova Web" <tecnova100@outlook.com>',
         to: "tecnova100@outlook.com", 
@@ -35,12 +35,13 @@ export default async function handler(req, res) {
         `
     };
 
-    // Envía el correo
+    // 5. Envía el correo
     try {
         await transporter.sendMail(mailOptions);
         res.status(200).json({ message: "Correo enviado exitosamente" });
     } catch (error) {
         console.error("Error al enviar correo:", error);
-        res.status(500).json({ message: "Error al enviar el correo" });
+        // Devolver el error real puede ayudar a depurar
+        res.status(500).json({ message: "Error al enviar el correo", error: error.message });
     }
-}
+};
