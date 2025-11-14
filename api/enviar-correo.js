@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
         // Nota: 'from' es un correo de prueba de Resend. Funciona perfecto.
         const data = await resend.emails.send({
             from: 'Formulario Tecnova <onboarding@resend.dev>',
-            to: ['tecnova100@outlook.com'], // <-- TU CORREO (donde recibirás)
+            to: ['tristan.aguilar.jose@gmail.com'], // <-- TU CORREO (donde recibirás)
             subject: `Nuevo prospecto: ${nombre}`,
             html: `
                 <h2>Nuevo contacto desde la web Tecnova</h2>
