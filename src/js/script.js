@@ -8,7 +8,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// LÓGICA DEL FORMULARIO
 const form = document.querySelector("#contacto form"); 
 
 form.addEventListener("submit", async e =>
